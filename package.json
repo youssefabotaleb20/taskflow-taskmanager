@@ -1,0 +1,20 @@
+{
+  "name": "taskflow",
+  "private": true,
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev -w api",
+    "dev:web": "npm run dev -w web",
+    "test": "npm test -w api && npm test -w web",
+    "typecheck": "npm run typecheck -w api && npm run typecheck -w web",
+    "lint": "npm run lint -w api && npm run lint -w web",
+    "build": "npm run build -w api && npm run build -w web",
+    "seed": "npm run seed -w api"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
