@@ -1,6 +1,6 @@
 # TaskFlow
 
-[![CI](https://github.com/youssefabotaleb20/taskflow/actions/workflows/ci.yml/badge.svg)](https://github.com/youssefabotaleb20/taskflow/actions/workflows/ci.yml)
+[![CI](https://github.com/youssefabotaleb20/taskflow-taskmanager/actions/workflows/ci.yml/badge.svg)](https://github.com/youssefabotaleb20/taskflow-taskmanager/actions/workflows/ci.yml)
 
 A task manager for small teams: projects, a three-column board, assignees, due dates and comments.
 It's a TypeScript monorepo with a REST API and a React web app. The API is also built to serve a React Native mobile app, so it has token refresh and offline sync.
