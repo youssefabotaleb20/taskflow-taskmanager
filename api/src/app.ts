@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { pinoHttp } from "pino-http";
-import swaggerUi from "swagger-ui-express";
 import mongoose from "mongoose";
 import { env } from "./config/env.js";
 import { requireAuth } from "./middleware/auth.js";
@@ -11,6 +10,7 @@ import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
 import taskRoutes from "./routes/tasks.js";
 import { openapi } from "./docs/openapi.js";
+import { swaggerCsp, swaggerPage } from "./docs/swaggerPage.js";
 
 export function createApp() {
   const app = express();
@@ -28,7 +28,10 @@ export function createApp() {
   app.get("/docs/openapi.json", (_req, res) => {
     res.json(openapi);
   });
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: "TaskFlow API docs" }));
+  app.get(["/docs", "/docs/"], (_req, res) => {
+    res.setHeader("Content-Security-Policy", swaggerCsp);
+    res.type("html").send(swaggerPage);
+  });
 
   const v1 = express.Router();
   v1.use("/auth", authRoutes);

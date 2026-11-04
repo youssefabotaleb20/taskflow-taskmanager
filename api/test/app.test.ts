@@ -14,7 +14,7 @@ describe("app", () => {
     expect(spec.body.openapi).toBe("3.0.3");
     expect(Object.keys(spec.body.paths)).toContain("/projects/{projectId}/tasks");
 
-    const ui = await api().get("/docs/").redirects(1);
+    const ui = await api().get("/docs");
     expect(ui.status).toBe(200);
     expect(ui.text).toContain("swagger-ui");
   });
