@@ -29,7 +29,7 @@ It's a TypeScript monorepo with a REST API and a React web app. The API is also 
 | API docs | OpenAPI 3 with Swagger UI at `/docs` |
 | Web | React 19, Vite, TypeScript, React Router, TanStack Query, Tailwind CSS 4 |
 | Testing | Vitest, Supertest and mongodb-memory-server (API); React Testing Library, user-event and MSW (web) |
-| DevOps | Docker, Docker Compose, GitHub Actions, Render |
+| DevOps | Docker, Docker Compose, GitHub Actions, Vercel (serverless), MongoDB Atlas |
 
 ## Architecture
 
@@ -121,13 +121,18 @@ Errors always look like `{ "error": { "code": "bad_request", "message": "...", "
 - Store both tokens in secure storage. On a 401, call `/auth/refresh` once and retry; `web/src/lib/api.ts` shows the pattern.
 - For offline sync, keep the `serverTime` from each task list response and pass it back as `updatedSince` next time. Tasks with `deletedAt` set should be removed locally.
 
-## Deploy on Render
+## Deploy (free, no card)
 
-1. Create a free MongoDB Atlas cluster and copy its connection string.
-2. In Render, choose **New > Blueprint** and select this repo. `render.yaml` creates the API (Docker) and the web app (static site).
-3. Fill in the prompted values: `MONGODB_URI`, `CORS_ORIGINS` (the web app's URL) and `VITE_API_URL` (the API's URL). `JWT_SECRET` is generated for you.
+The live demo runs on Vercel's free Hobby plan with a free MongoDB Atlas M0 cluster. It's two Vercel projects from this one repo:
 
-The free plan puts the API to sleep when idle, so the first request after a while takes up to a minute.
+| Project | Root Directory | Environment variables |
+| --- | --- | --- |
+| API | `api` | `MONGODB_URI`, `JWT_SECRET`, `CORS_ORIGINS` (the web app's URL), `NODE_ENV=production` |
+| Web | `web` | `VITE_API_URL` (the API's URL) |
+
+On Vercel the API runs as one serverless function (`api/api/index.js`) that wraps the same Express app and reuses the MongoDB connection between requests. `api/vercel.json` and `web/vercel.json` hold the routing. In Atlas, allow network access from anywhere, because Vercel has no fixed IPs.
+
+The repo also works on Render (`render.yaml`) or any Docker host (`api/Dockerfile`, `web/Dockerfile`), but Render now asks for a card even on its free plan.
 
 ## License
 
