@@ -80,7 +80,7 @@ npm install
 cp api/.env.example api/.env        # set JWT_SECRET
 cp web/.env.example web/.env
 docker run -d -p 27017:27017 mongo:7 # or use your own MongoDB
-npm run seed                         # demo data: demo@taskflow.dev / taskflow-demo
+npm run seed                         # local demo data: demo@taskflow.dev / taskflow-demo
 npm run dev:api                      # http://localhost:4000
 npm run dev:web                      # http://localhost:5173
 ```
@@ -97,6 +97,10 @@ npm run typecheck
 - **Web (29 tests):** React Testing Library renders the whole app and drives it the way a user would (labels, roles, keyboard). MSW stands in for the API with the same response shapes, so the tests cover login, the board, filters, the task panel, comments and the token-refresh logic in the API client.
 
 GitHub Actions runs lint, typecheck, tests and builds for both packages on every push and pull request, then builds both Docker images.
+
+## How it works
+
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) covers the full request flow, the data model, the security model, the key decisions (with the options I rejected), known limits and what I'd build next.
 
 ## API overview
 
@@ -134,7 +138,7 @@ The live demo runs on Vercel's free Hobby plan with a free MongoDB Atlas M0 clus
 
 On Vercel the API runs as one serverless function (`api/api/index.js`) that wraps the same Express app and reuses the MongoDB connection between requests. `api/vercel.json` and `web/vercel.json` hold the routing. In Atlas, allow network access from anywhere, because Vercel has no fixed IPs.
 
-The repo also works on Render (`render.yaml`) or any Docker host (`api/Dockerfile`, `web/Dockerfile`), but Render now asks for a card even on its free plan.
+Both parts also run on any Docker host with `api/Dockerfile` and `web/Dockerfile`, as `docker-compose.yml` shows.
 
 ## License
 
