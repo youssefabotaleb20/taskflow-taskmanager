@@ -3,6 +3,8 @@
 [![CI](https://github.com/youssefabotaleb20/taskflow-taskmanager/actions/workflows/ci.yml/badge.svg)](https://github.com/youssefabotaleb20/taskflow-taskmanager/actions/workflows/ci.yml)
 
 A task manager for small teams: projects, a three-column board, assignees, due dates and comments.
+**Live demo:** [taskflow-web-woad.vercel.app](https://taskflow-web-woad.vercel.app) · **API docs:** [taskflow-api-opal-ten.vercel.app/docs](https://taskflow-api-opal-ten.vercel.app/docs)
+
 It's a TypeScript monorepo with a REST API and a React web app. The API is also built to serve a React Native mobile app, so it has token refresh and offline sync.
 
 ![Project board](docs/screenshots/board.png)
